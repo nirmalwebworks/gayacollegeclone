@@ -3,69 +3,355 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaya College</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Bootstrap CSS -->
+    <title>Gaya College | Official Portal</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==============================
+           1. GLOBAL VARIABLES
+           ============================== */
+        :root {
+            --primary: #0d6efd;
+            --secondary: #34495e; /* Dark Blue/Grey */
+            --accent: #00ddff;
+            --light-bg: #f4f7f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            overflow-x: hidden;
+            
+            /* DESKTOP PADDING (Accommodates 2-Row Header) */
+            padding-top: 160px; 
+        }
+
+        /* ==============================
+           2. HEADER STYLES
+           ============================== */
+        .custom-navbar {
+            background: #ffffff;
+            padding: 0; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+        }
+
+        /* --- ROW 1: LOGO AREA --- */
+        .logo-container {
+            padding: 10px 20px;
+            background: #fff;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s;
+            height: 100px; /* Desktop Logo Row Height */
+        }
+
+        .navbar-brand img {
+            max-height: 98px; 
+            width: auto;
+            transition: max-height 0.3s;
+        }
+
+        .navbar-toggler {
+            background-color: var(--primary);
+            border: none;
+            padding: 8px 12px;
+            align-self: center;
+        }
+        .navbar-toggler-icon {
+            filter: invert(1);
+            width: 1.2em;
+            height: 1.2em;
+        }
+
+        /* --- ROW 2: NAVIGATION BAR --- */
+        .menu-container {
+            background-color: var(--secondary); 
+            width: 100%;
+            padding: 0 20px;
+            height: 50px; 
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-nav {
+            flex-direction: row; 
+            justify-content: center; 
+            width: 100%;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            padding: 12px 20px !important;
+            font-size: 1rem;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255,255,255,0.1);
+            border-bottom: 3px solid var(--accent);
+            color: var(--accent) !important;
+        }
+
+        .nav-link i { margin-right: 5px; }
+
+        /* Dropdown Styling */
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            margin-top: 0;
+            border-radius: 0 0 8px 8px;
+        }
+        .dropdown-item { padding: 10px 20px; }
+        .dropdown-item:hover { background-color: #e3f2fd; color: var(--primary); }
+
+        /* ==============================
+           3. SCROLL ANIMATION
+           ============================== */
+        .navbar-scrolled .logo-container {
+            height: 70px; 
+            padding: 5px 20px;
+        }
+        .navbar-scrolled .navbar-brand img {
+            max-height: 55px; 
+        }
+
+        /* ==============================
+           4. MOBILE ADJUSTMENTS (Crucial Fix)
+           ============================== */
+        @media (max-width: 991px) {
+            /* FIX: Reduce top padding drastically for mobile */
+            body { 
+                padding-top: 75px; 
+            } 
+
+            .logo-container {
+                height: 70px; /* Mobile Header Height */
+            }
+
+            .navbar-brand img { max-height: 65px; }
+            
+            /* Hide the desktop menu bar strip */
+            .menu-container {
+                background-color: transparent; 
+                padding: 0;
+                height: auto; 
+                display: block;
+            }
+            
+            .navbar-nav {
+                flex-direction: column; 
+                background-color: var(--secondary);
+                padding: 15px;
+                margin-top: 0;
+                border-radius: 0 0 8px 8px;
+            }
+
+            .nav-link {
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                padding: 10px 15px !important;
+            }
+            
+            .nav-link:hover {
+                border-bottom: 1px solid var(--accent);
+            }
+        }
+
+        /* ==============================
+           5. NEWS & CONTENT
+           ============================== */
+        .news-wrapper {
+            display: flex; 
+            background: #fff; 
+            border-bottom: 1px solid #ddd; 
+            height: 45px;
+            position: relative;
+            z-index: 1;
+        }
+        .news-label {
+            background: #d63384; color: #fff; padding: 0 15px;
+            display: flex; align-items: center; font-weight: 700; font-size: 0.85rem; z-index: 2;
+        }
+        .marquee-content {
+            flex: 1; display: flex; align-items: center; overflow: hidden;
+        }
+        .marquee-content span {
+            white-space: nowrap; animation: scrollText 25s linear infinite;
+        }
+        .marquee-content a {
+            text-decoration: none; color: #333; margin: 0 20px; font-weight: 500;
+        }
+        @keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* Cards */
+        .hover-card {
+            border: none; border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.4s; background: #fff;
+        }
+        .hover-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+        .hover-card img { height: 280px; object-fit: cover; width: 100%; transition: 0.5s; }
+        .hover-card:hover img { transform: scale(1.1); }
+
+        /* Footer */
+        footer { background: var(--secondary); color: #fff; padding: 30px 0; text-align: center; margin-top: 50px; }
+
+        /* Preloader & BackToTop */
+        #preloader { position: fixed; width: 100%; height: 100vh; background: #fff; z-index: 9999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s; }
+        .loader { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #back-to-top { position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: white; width: 45px; height: 45px; border-radius: 50%; border: none; display: none; justify-content: center; align-items: center; cursor: pointer; z-index: 1000; }
+
+    </style>
 </head>
 <body>
-    <div class="head">
-    <a href="https://nirmalkrgupta.github.io/nirmalprofile/"><img class="logo" src="head.png"></a> 
-    <div class="side"> For Online Portal Related Query:<br/>7004071106, 7857868200</div>
-    <div class="nav"><ul class="nav nav-pills">
-  <li class="nav-item">
-    </li>
-    <a class="nav-link" href="https://gayacollege.online/index.php"><img src="home.png" width="15px"> Home</a>
-  </li>
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"> <img src="paper.png" width="15px">Online Application</a>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="https://nirmalkrgupta.github.io/addmisionform/">PG Addmission</a></li>
-      <li><a class="dropdown-item" href="https://nirmalkrgupta.github.io/addmisionform/">UG Admission</a></li>
-      <li><a class="dropdown-item" href="https://gayacollege.online/degree/#">CLC</a></li>
-    </ul>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="https://gayacollege.online/news.php"><img src="news.png" width="15px">News</a>
-  </li>
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><img src="receipt.png" width="15px">Download Receipt</a>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="https://gayacollege.online/receipt-reprint/">Addmission Receipt</a></li>
-      <li><a class="dropdown-item" href="https://gayacollege.online/download_registration_receipt.php">Registration Receipt</a></li>
-      <li><a class="dropdown-item" href="https://gayacollege.online/exam-form-receipt/">Exam Form Receipt</a></li>
-    </ul>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="https://gayacollege.online/#"><img src="credit-card.png" width="15px">Payment Query</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="https://nirmalkrgupta.github.io/nirmalprofile/" target="_blank"><img src="phone.png" width="15px">Contact Us</a>
-  </li>
-   <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><img src="enter.png" width="15px">Login</a>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="https://gayacollege.online/studentlogin/">Student Login</a></li>
-      <li><a class="dropdown-item" href="https://gayacollege.online/admission-dashboard/">College Login</a></li>
-    </ul>
-  </li>
-</ul></div>
-<div class="marquee">
-  <div class="marquee-content">
-    <a href="https://gayacollege.online/news.php?news_id=192">DEGREE ADMIT CARD B.A. (HUMANITIES) 4TH SEMESTER (2023-27)</a>
-    &nbsp;|&nbsp;
-    <a href="https://gayacollege.online/news.php?news_id=193">DEGREE ADMIT CARD B.A. (SOCIAL SCIENCE) 4TH SEMESTER (2023-27)</a>
-  </div>
-</div> 
-</div>
-<div class="picture">
-  <img class="img1" src="gc.jpg">
-  <img class="img1" src="gaya.jpg">
-</div>
-  <nav class="foot">Fee payments for this site are non-refundable, read our <a style="color: white;" href="https://gayacollege.online/term-condition.php"><strong>Policy Statement</strong></a> first before continuing. In case of any problems related to this website, please contact college or call between 10:30 AM till 05:30 PM with your necessary information.</nav>
-<nav class="footer">All Right Reserved &copy 2025 | This Website is Designed and Developed by Nirmal Kumar</nav>
-</div>
+
+    <div id="preloader"><div class="loader"></div></div>
+    <button id="back-to-top" onclick="scrollToTop()"><i class="fa-solid fa-arrow-up"></i></button>
+
+    <nav class="navbar navbar-expand-lg custom-navbar fixed-top">
+        <div class="container-fluid flex-lg-column p-0">
+            
+            <div class="logo-container">
+                <a class="navbar-brand" href="https://nirmalkrgupta.github.io/nirmalprofile/">
+                    <img src="head.png" alt="Gaya College">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <div class="menu-container">
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://gayacollege.online/index.php"><i class="fa-solid fa-house"></i> Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-graduation-cap"></i> Admission
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="https://nirmalwebworks.github.io/addmisionform/">PG Admission</a></li>
+                                <li><a class="dropdown-item" href="https://nirmalwebworks.github.io/addmisionform/">UG Admission</a></li>
+                                <li><a class="dropdown-item" href="#">CLC Application</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://gayacollege.online/news.php"><i class="fa-solid fa-newspaper"></i> News</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-download"></i> Download
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Admission Receipt</a></li>
+                                <li><a class="dropdown-item" href="#">Registration Receipt</a></li>
+                                <li><a class="dropdown-item" href="#">Admit Card</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fa-regular fa-credit-card"></i> Payments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://gayacollege.online/studentlogin/">
+                                <i class="fa-solid fa-right-to-bracket"></i> Login
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="news-wrapper">
+        <div class="news-label">NOTICES</div>
+        <div class="marquee-content">
+            <span>
+                <a href="#"><i class="fa-solid fa-bell text-danger"></i> ADMIT CARD: B.A. (HUMANITIES) 4TH SEM (2023-27) RELEASED</a>
+                <a href="#"><i class="fa-solid fa-bell text-danger"></i> IMPORTANT: PG ADMISSION DATE EXTENDED</a>
+                <a href="#"><i class="fa-solid fa-circle-info text-primary"></i> HOLIDAY NOTICE: COLLEGE CLOSED ON 25TH DEC</a>
+            </span>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <h3 class="section-title reveal" style="border-left: 5px solid var(--primary); padding-left: 15px; color: var(--secondary); margin-bottom: 30px;">
+            Campus Tour
+        </h3>
+        <div class="row g-4">
+            <div class="col-md-6 reveal">
+                <div class="hover-card">
+                    <img src="gc.jpg" alt="Main Building">
+                    <div class="p-4 text-center">
+                        <h4 class="mb-1 fw-bold text-dark">Main Campus Building</h4>
+                        <p class="text-muted mb-0">Established 1944 • Center of Excellence</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 reveal">
+                <div class="hover-card">
+                    <img src="gaya.jpg" alt="Administrative Block">
+                    <div class="p-4 text-center">
+                        <h4 class="mb-1 fw-bold text-dark">Administrative Block</h4>
+                        <p class="text-muted mb-0">Office • Accounts • Examination Dept</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mb-5 reveal">
+        <div class="alert alert-warning shadow-sm border-0" role="alert" style="background-color: #fff3cd; border-left: 5px solid #ffc107;">
+            <div class="d-flex align-items-center">
+                <i class="fa-solid fa-triangle-exclamation fa-2x me-3 text-warning"></i>
+                <div>
+                    <h5 class="alert-heading fw-bold">Important Policy</h5>
+                    <p class="mb-0">Fee payments for this site are non-refundable. Please read our <a href="#" class="alert-link fw-bold">Policy Statement</a> before proceeding.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p class="mb-2 opacity-75">&copy; 2025 Gaya College, Gaya. All Rights Reserved.</p>
+            <small class="opacity-50">Designed and Developed by <span style="color: var(--accent); font-weight: 600;">Nirmal Kumar</span></small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener("load", function () { document.getElementById("preloader").style.opacity = "0"; setTimeout(() => { document.getElementById("preloader").style.display = "none"; }, 500); });
+        
+        const navbar = document.querySelector(".custom-navbar");
+        const backToTopBtn = document.getElementById("back-to-top");
+        
+        window.onscroll = function() {
+            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) { navbar.classList.add("navbar-scrolled"); } else { navbar.classList.remove("navbar-scrolled"); }
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) { backToTopBtn.style.display = "flex"; } else { backToTopBtn.style.display = "none"; }
+        };
+
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach((reveal) => { if (reveal.getBoundingClientRect().top < windowHeight - 100) { reveal.classList.add('active'); } });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); 
+
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    </script>
 </body>
 </html>
